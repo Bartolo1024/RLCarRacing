@@ -1,0 +1,34 @@
+name: rl
+channels:
+  - pytorch
+  - defaults
+dependencies:
+  - click
+  - cudatoolkit>=10.2
+  - h5py
+  - ignite
+  - numpy
+  - pillow
+  - pip
+  - python=3.8
+  - pytorch>=1.9.0
+  - pyyaml
+  - torchvision>=0.10.0
+  - tqdm
+  - yaml
+  - cython
+  - pip:
+      - opencv-python
+      - pytest
+      - flake8
+      - livelossplot
+      - yapf
+      - mypy
+      - psutil
+      - git+https://github.com/stared/pytorch-named-dims
+      - pre-commit
+      - ipython
+      - isort
+      - jupyter
+      - gym[all]
+      - box2d
