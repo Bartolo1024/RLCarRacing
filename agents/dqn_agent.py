@@ -3,11 +3,11 @@ from typing import Dict, Tuple
 
 import numpy as np
 import torch
-from torch import optim
 from pytorch_named_dims import nm
+from torch import optim
 
-from agents.utils import named_stack
 from agents.models.cnn import FullyCNN
+from agents.utils import named_stack
 
 from . import memory_agent
 
@@ -51,8 +51,8 @@ class DQNAgent(memory_agent.MemoryAgent):
         self.q_net.train()
         q_estimate = self.q_net(state_batch).rename(None)
 
-        action_batch = action_batch.rename(None).unsqueeze(0)
-        state_action_values = q_estimate.gather(1, action_batch).squeeze(0).rename('N')
+        action_batch = action_batch.unflatten('N', (('C', 1), ('N', -1))).rename(None)
+        state_action_values = q_estimate.gather(1, action_batch).rename('C', 'N').flatten(('C', 'N'), 'N')
         with torch.no_grad():
             expected_state_action_values = self.future_reward_estimate(batch) + reward_batch
 

@@ -2,9 +2,8 @@ from abc import abstractmethod
 
 import torch
 
-from agents.utils import named_stack
 import agents.utils.replay_memory
-from agents.utils import epsilon
+from agents.utils import epsilon, named_stack
 from agents.utils.transform import get_default_transform
 
 
