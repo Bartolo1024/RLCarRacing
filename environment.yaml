@@ -32,3 +32,4 @@ dependencies:
       - jupyter
       - gym[all]
       - box2d
+      - neptune-client

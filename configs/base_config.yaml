@@ -1,3 +1,5 @@
+neptune_project: bartholomew/car-racing
+output_dir: outputs
 agent:
   action_space:
     0: !!python/tuple
@@ -18,3 +20,4 @@ agent:
       - 1.
 max_epochs: 1000
 max_time_steps: 1000
+render: False
