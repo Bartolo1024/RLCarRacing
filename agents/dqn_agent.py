@@ -1,12 +1,12 @@
 import random
-from typing import Dict, Tuple
+from typing import Any, Dict, Optional, Tuple
 
 import numpy as np
 import torch
 from pytorch_named_dims import nm
 from torch import optim
 
-from agents.models.cnn import FullyCNN
+from utils import import_function
 from agents.utils import named_stack
 
 from . import memory_agent
@@ -16,16 +16,22 @@ class DQNAgent(memory_agent.MemoryAgent):
     def __init__(
         self,
         action_space: Dict[str, Tuple[float, float, float]],
-        lr: float = .0005,
-        target_update: int = 200,
+        network_kwargs: Optional[Dict[str, Any]] = None,
+        lr: float = .001,
+        target_update: int = 8,
+        optimizer: str = 'Adam',
+        create_model: str = 'agents.models.cnn.FullyCNN',
         **kwargs
     ):
         super(DQNAgent, self).__init__(**kwargs)
-        self.q_net = FullyCNN(num_actions=len(action_space)).to(self.device)
-        self.target_net = FullyCNN(num_actions=len(action_space)).to(self.device)
+        network_kwargs = network_kwargs if network_kwargs is not None else {}
+        model_constructor = import_function(create_model)
+        self.q_net = model_constructor(num_actions=len(action_space), **network_kwargs).to(self.device)
+        self.target_net = model_constructor(num_actions=len(action_space), **network_kwargs).to(self.device)
         self.target_net.load_state_dict(self.q_net.state_dict())
         self.target_net.eval()
-        self.optimizer = optim.RMSprop(self.q_net.parameters(), lr=lr)
+        optimizer_constructor = getattr(optim, optimizer)
+        self.optimizer = optimizer_constructor(self.q_net.parameters(), lr=lr)
         self.num_of_actions = len(action_space)
         self.target_update = target_update
         self.action_space = action_space
@@ -89,3 +95,4 @@ class DQNAgent(memory_agent.MemoryAgent):
     def load_weights(self, path):
         state_dict = torch.load(path)
         self.q_net.load_state_dict(state_dict)
+        self.target_net.load_state_dict(state_dict)

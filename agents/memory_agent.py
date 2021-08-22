@@ -11,12 +11,12 @@ class MemoryAgent:
     def __init__(
         self,
         batch_size=64,
-        gamma: float = 0.99,
-        eps_start: float = 0.9,
+        gamma: float = 0.95,
+        eps_start: float = 0.999,
         eps_end: float = 0.05,
         eps_decay: int = 1000,
         num_of_actions: int = 3,
-        replay_memory_capacity: int = 10000,
+        replay_memory_capacity: int = 100000,
         device=torch.device('cuda')
     ):
         self.step = 0
