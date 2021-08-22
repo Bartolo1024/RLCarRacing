@@ -1,62 +1,39 @@
 neptune_project: bartholomew/car-racing
 output_dir: outputs
 agent:
-  eps_decay: 100
+  eps_decay: 1200
+  eps_start: .95
   eps_end: .1
   action_space:
     0: !!python/tuple
-      - 0.
-      - 0.
+      - 1.
+      - .2
       - 0.
     1: !!python/tuple
-      - 1.
-      - 0.
+      - -1.
+      - .2
       - 0.
     2: !!python/tuple
-      - -1.
       - 0.
-      - 0.
+      - .2
+      - .4
     3: !!python/tuple
       - 0.
+      - 1.
       - 0.
-      - .2
     4: !!python/tuple
       - 1.
-      - 0.
       - .2
+      - 0.
     5: !!python/tuple
       - -1.
-      - 0.
       - .2
-    6: !!python/tuple
-      - 0.
-      - 1.
-      - 0.
-    7: !!python/tuple
-      - 1.
-      - 1.
-      - 0.
-    8: !!python/tuple
-      - -1.
-      - 1.
-      - 0.
-    9: !!python/tuple
-      - 0.
-      - 1.
-      - 0.
-    10: !!python/tuple
-      - 1.
-      - 1.
-      - 0.
-    11: !!python/tuple
-      - -1.
-      - 1.
       - 0.
   network_kwargs:
     num_features: 4
   optimizer: Adam
-  create_model: agents.models.cnn.CNNFC
+  create_model: agents.models.cnn.FullyCNN
   batch_size: 256
-max_epochs: 4000
+max_epochs: 10000
 max_time_steps: 1000
 render: False
