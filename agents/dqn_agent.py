@@ -21,6 +21,7 @@ class DQNAgent(memory_agent.MemoryAgent):
         target_update: int = 8,
         optimizer: str = 'Adam',
         create_model: str = 'agents.models.cnn.FullyCNN',
+        loss_fn: str = 'MSELoss',
         **kwargs
     ):
         super(DQNAgent, self).__init__(**kwargs)
@@ -35,7 +36,7 @@ class DQNAgent(memory_agent.MemoryAgent):
         self.num_of_actions = len(action_space)
         self.target_update = target_update
         self.action_space = action_space
-        self.loss = nm.L1Loss()
+        self.loss = getattr(nm, loss_fn)()
 
     def act(self, state):
         sample = random.random()

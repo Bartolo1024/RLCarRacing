@@ -1,6 +1,8 @@
 neptune_project: bartholomew/car-racing
 output_dir: outputs
 agent:
+  eps_decay: 100
+  eps_end: .1
   action_space:
     0: !!python/tuple
       - 0.
@@ -51,8 +53,10 @@ agent:
       - 1.
       - 0.
   network_kwargs:
-    num_features: 8
+    num_features: 4
   optimizer: Adam
+  create_model: agents.models.cnn.CNNFC
+  batch_size: 256
 max_epochs: 4000
 max_time_steps: 1000
 render: False
