@@ -17,6 +17,7 @@ dependencies:
   - tqdm
   - yaml
   - cython
+  - swig
   - pip:
       - opencv-python
       - pytest
@@ -30,6 +31,6 @@ dependencies:
       - ipython
       - isort
       - jupyter
-      - gym[all]
       - box2d
+      - gym[box2d]
       - neptune-client
