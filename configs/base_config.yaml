@@ -1,7 +1,7 @@
 neptune_project: bartholomew/car-racing
 output_dir: outputs
 agent:
-  eps_decay: 1200
+  eps_decay: 200
   eps_start: .95
   eps_end: .1
   action_space:
@@ -34,6 +34,7 @@ agent:
   optimizer: Adam
   create_model: agents.models.cnn.FullyCNN
   batch_size: 256
+  loss_fn: L1Loss
 max_epochs: 100000
 max_time_steps: 1000
 render: False

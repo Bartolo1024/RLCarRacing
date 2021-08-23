@@ -51,6 +51,11 @@ def create_reinforce_engine(agent: agents.dqn_agent.DQNAgent, environment: gym.E
     @trainer.on(EPISODE_COMPLETED)
     def _sum_reward(engine: Engine):
         loss = agent.update(engine.state.epoch)
+        num_updates = 10
+        if engine.state.epoch > 400:
+            for i in range(num_updates):
+                loss += agent.update(engine.state.epoch)
+            loss /= num_updates
         engine.state.metrics = {'total_reward': engine.state.total_reward, 'loss': loss}
 
     @trainer.on(Events.COMPLETED)

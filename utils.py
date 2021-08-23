@@ -44,7 +44,7 @@ def create_experiment(func: Callable) -> Callable:
         neptune_project_name = params.get('neptune_project')
         output_dir = params['output_dir']
         del params['output_dir']
-        logger_outputs = ['ExtremaPrinter']
+        logger_outputs = []
         params['logger_outputs'] = logger_outputs
         if neptune_project_name is not None:
             del params['neptune_project']
@@ -56,6 +56,7 @@ def create_experiment(func: Callable) -> Callable:
             ret = func(*args, **params)
             neptune_output.neptune.stop()
         else:
+            logger_outputs.append('ExtremaPrinter')
             params['run_dir'] = create_artifacts_dir(output_dir)
             ret = func(*args, **params)
         return ret
