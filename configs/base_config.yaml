@@ -34,6 +34,6 @@ agent:
   optimizer: Adam
   create_model: agents.models.cnn.FullyCNN
   batch_size: 256
-max_epochs: 10000
+max_epochs: 100000
 max_time_steps: 1000
 render: False

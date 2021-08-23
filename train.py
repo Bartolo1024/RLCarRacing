@@ -67,10 +67,12 @@ def create_reinforce_engine(agent: agents.dqn_agent.DQNAgent, environment: gym.E
 
 @click.command()
 @click.argument('config')
+@click.option('--pretrained-weights')
 @utils.unpack_config
 @utils.create_experiment
 def main(
     agent: Dict[str, Any],
+    pretrained_weights: str,
     max_epochs: int,
     max_time_steps: int,
     render: bool,
@@ -79,8 +81,9 @@ def main(
 ):
     env = gym.make('CarRacing-v0', verbose=False)
     agent = agents.dqn_agent.DQNAgent(**agent)
+    agent.load_weights(pretrained_weights)
     trainer = create_reinforce_engine(agent, env, render=render)
-    # trainer.attach(ProgressBar(persist=False))
+    trainer.attach(ProgressBar(persist=False))
     net_saver = create_best_metric_saver(
         model=agent.q_net, trainer=trainer, artifacts_dir=run_dir, metric_name='total_reward', mode=max
     )
